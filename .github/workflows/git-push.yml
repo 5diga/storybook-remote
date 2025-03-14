@@ -12,8 +12,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install mustache (to update the date)
         run: apk add ruby && gem install mustache
+      - name: Create output directory
+        run: mkdir -p output
       - name: creates output
         run: sh ./build.sh
+      - name: Verify output directory contents
+        run: ls -la output
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -21,8 +25,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.GH_TOKEN }}
         with:
           source-directory: "output"
-          destination-github-username: froggy1014
-          destination-repository-name: storybook-clone
+          destination-github-username: 5diga
+          destination-repository-name: storybook-remote
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
